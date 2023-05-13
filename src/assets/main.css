@@ -1,5 +1,21 @@
+:root {
+  --max-width: 500px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  overflow-y: auto;
+}
+
+.required :deep(.v-input::after) {
+  content: "*";
+}
+
+.rounded-theme {
+  border-radius: 1px;
 }

@@ -1,44 +1,139 @@
 <template>
-  <span>How much stamina on LOWEST stamina unit in team? </span
-  ><input type="number" value="0" id="stamina" />
-  <br />
-  <br />
-  <span>Are you a star of dawn?</span><input type="checkbox" id="is-sod" />
-  <br />
-  <br />
-  <span>Quiet time start: </span
-  ><input id="end-day" type="date" value="2023-05-22" />
-  <br />
-  <br />
-  <span id="results"></span>
+  <div class="my-12 d-flex flex-column align-center">
+    <h1 class="mb-8 text-h3 text-center">Boss Attack Reset<br />Calculator</h1>
+
+    <div class="page-container">
+      <v-form v-if="page === 1">
+        <v-select v-model="season" label="Season" :items="seasons" disabled />
+        <!-- TODO: min 0, max 10 -->
+        <v-text-field
+          v-model.number="spectators"
+          class="required"
+          label="Spectators"
+          type="number"
+        />
+        <!-- TODO: Only allow positive integers -->
+        <v-text-field
+          v-model.number="stamina"
+          class="required"
+          label="Stamina"
+          type="number"
+        >
+          <template #append-inner>
+            <InformationIcon
+              text="The stamina for the hero with the least amount in the team"
+            />
+          </template>
+        </v-text-field>
+        <v-checkbox v-model="isSod" label="I am a SoD" color="primary" />
+
+        <!-- TODO: Build theming into all VBtn -->
+        <v-btn
+          class="w-100 rounded-theme"
+          size="large"
+          variant="flat"
+          color="primary"
+          @click="page = 2"
+        >
+          Calculate
+        </v-btn>
+      </v-form>
+
+      <div v-if="page === 2">
+        <div class="mb-4">
+          <p class="mb-4">
+            There are
+            <strong>{{ Math.floor(hoursLeft) }} hours left</strong>
+            before quiet time starts.
+          </p>
+          <p class="mb-4">
+            Your team will accrue {{ Math.floor(staminaToGain) }} more stamina
+            from now and have a total of {{ totalStamina }} stamina, and will
+            therefore have <strong>{{ remainingFullAttacks }} attacks</strong>.
+          </p>
+          <p class="mb-4">
+            The attacks will use a total of
+            {{ remainingFullAttackStamina }} stamina,
+            <strong
+              >leaving
+              {{ totalStamina - remainingFullAttackStamina }} stamina </strong
+            >.
+          </p>
+          <p class="mb-8 text-h6">
+            Since each rewind costs 4 stamina, you can therefore
+            <strong>rewind {{ freeRewinds }} times</strong> without losing an
+            attack!
+          </p>
+        </div>
+
+        <v-btn
+          class="w-100 rounded-theme"
+          size="large"
+          variant="tonal"
+          color="primary"
+          @click="page = 1"
+        >
+          Back
+        </v-btn>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-const staminaEle = document.getElementById("stamina");
-const isSodEle = document.getElementById("is-sod");
-const endDayEle = document.getElementById("end-day");
-const resultsEle = document.getElementById("results");
+import { computed, ref } from "vue";
+import { DateTime } from "luxon";
+import InformationIcon from "@/components/InformationIcon.vue";
 
-const onChange = () => {
-  const endTime = new Date(endDayEle.value);
-  const hoursLeft = (endTime - new Date()) / 1000 / 60 / 60;
-  const staminaGain = isSodEle.checked ? 4 * (1.12 + 0.1) : 4 * 1.12;
-  const staminaToGain = hoursLeft > 0 ? staminaGain * hoursLeft : 0;
-  const totalStamina = Math.floor(staminaToGain + +staminaEle.value);
-  const remainingFullAttacks = Math.floor(totalStamina / 48);
-  const residualStamina = totalStamina % 48;
-  const freeRewinds = Math.floor(residualStamina / 4);
-  resultsEle.innerText = `
-        Hours left: ${Math.floor(hoursLeft * 100) / 100}
-        Your team will be able to attack ${remainingFullAttacks} times, using ${
-    remainingFullAttacks * 48
-  } stamina
-        You will end up with ${totalStamina} stamina at the beginning of quiet timer.
-        You can therefore rewind ${freeRewinds} times without losing an attack!
-     `;
-};
+const page = ref(1);
 
-staminaEle.oninput = onChange;
-isSodEle.onchange = onChange;
-endDayEle.onchange = onChange;
+// Inputs
+const seasons = [
+  {
+    title: "S9",
+    // Convert titles to kebab-case for values
+    value: "s9",
+    quietTimeStartDate: DateTime.fromISO("2023-05-22T00:00Z"),
+  },
+];
+const season = ref(seasons[seasons.length - 1]);
+
+const spectators = ref(0);
+const stamina = ref(0);
+const isSod = ref(false);
+
+// Results
+const hoursLeft = computed(() =>
+  season.value.quietTimeStartDate.diff(DateTime.now()).as("hours")
+);
+const staminaToGain = computed(() => {
+  let adjustmentFactor = 1 + 0.012 * spectators.value;
+  if (isSod.value) adjustmentFactor += 0.1;
+  const staminaGain = 4 * adjustmentFactor;
+  return hoursLeft.value > 0 ? staminaGain * hoursLeft.value : 0;
+});
+const totalStamina = computed(() =>
+  Math.floor(stamina.value + staminaToGain.value)
+);
+const remainingFullAttacks = computed(() =>
+  Math.floor(totalStamina.value / 48)
+);
+const remainingFullAttackStamina = computed(
+  () => remainingFullAttacks.value * 48
+);
+const freeRewinds = computed(() => {
+  const residualStamina = totalStamina.value % 48;
+  return Math.floor(residualStamina / 4);
+});
 </script>
+
+<style>
+.page-container {
+  width: min(100%, var(--max-width));
+}
+
+strong {
+  font-weight: bold;
+  font-size: larger;
+}
+</style>
