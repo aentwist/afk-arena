@@ -11,7 +11,14 @@
           class="required"
           label="Spectators"
           type="number"
-        />
+          data-test="spectators"
+        >
+          <template #append-inner>
+            <InformationIcon
+              text="Militia members accrue stamina 1.2% faster per spectator"
+            />
+          </template>
+        </v-text-field>
         <!-- TODO: Only allow positive integers -->
         <v-text-field
           v-model.number="stamina"
