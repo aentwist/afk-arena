@@ -25,7 +25,18 @@
             />
           </template>
         </v-text-field>
-        <v-checkbox v-model="isSod" label="I am a SoD" color="primary" />
+        <v-checkbox
+          v-model="isSod"
+          label="I am a spectated SoD"
+          color="primary"
+          data-test="spectated"
+        >
+          <template #append>
+            <InformationIcon
+              text="Spectated stars of dawn accrue stamina 10% faster"
+            />
+          </template>
+        </v-checkbox>
 
         <!-- TODO: Build theming into all VBtn -->
         <v-btn
@@ -135,5 +146,9 @@ const freeRewinds = computed(() => {
 strong {
   font-weight: bold;
   font-size: larger;
+}
+
+.v-checkbox :deep(.v-input__append) {
+  margin-inline-end: 12px;
 }
 </style>
