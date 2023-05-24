@@ -127,7 +127,7 @@ const freeRewinds = computed(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .page-container {
   width: min(100%, var(--max-width));
 }
