@@ -113,6 +113,11 @@ const seasons = [
     value: "s9",
     quietTimeStartDate: DateTime.fromISO("2023-05-22T00:00Z"),
   },
+  {
+    title: "S10",
+    value: "s10",
+    quietTimeStartDate: DateTime.fromISO("2023-07-23T00:00Z"),
+  },
 ];
 const season = ref(seasons[seasons.length - 1]);
 
