@@ -8,8 +8,20 @@
   box-sizing: border-box;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.d-grid {
+  display: grid;
+}
+
 html {
   overflow-y: auto;
+}
+
+.place-center {
+  place-items: center;
 }
 
 .required :deep(.v-input::after) {

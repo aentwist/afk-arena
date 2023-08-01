@@ -16,10 +16,22 @@
 </template>
 
 <script setup lang="ts">
+import { useDbStore } from "./stores/db";
+
+useDbStore();
+
 const tabs = [
   {
     to: "/",
     title: "Home",
+  },
+  {
+    to: { name: "heroes" },
+    title: "Heroes",
+  },
+  {
+    to: { name: "formations" },
+    title: "Formations",
   },
   {
     to: { name: "abex" },
