@@ -173,7 +173,7 @@
 
         <v-form>
           <div
-            class="new-formation-top mx-auto my-12 d-flex flex-column align-center"
+            class="new-formation-top mx-1 mx-sm-auto my-6 my-sm-12 d-flex flex-column align-center"
           >
             <v-text-field
               v-model="name"
@@ -181,7 +181,10 @@
               label="Name"
             />
 
-            <div class="d-flex flex-wrap justify-space-between">
+            <div
+              class="d-flex justify-space-between overflow-x-auto"
+              :class="{ 'unit-select-container-compact': display.xs.value }"
+            >
               <UnitSelect
                 v-for="i in 5"
                 :key="i"
@@ -534,5 +537,9 @@ async function updateFormation() {
   margin: 4px auto;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+
+.unit-select-container-compact {
+  width: calc(100vw - 8px);
 }
 </style>
