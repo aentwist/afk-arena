@@ -262,12 +262,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Hero, Beast, Formation } from "@/types";
 import { computed, reactive, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 import UnitSelect from "@/components/UnitSelect.vue";
 import HeroIcon from "@/components/HeroIcon.vue";
 import BeastIcon from "@/components/BeastIcon.vue";
-import { type DBSchema, type IDBPDatabase, openDB } from "idb";
 import {
   mdiClose,
   mdiDotsVertical,
@@ -275,75 +275,12 @@ import {
   mdiPlus,
   mdiTrashCan,
 } from "@mdi/js";
+import { storeToRefs } from "pinia";
+import { useDbStore } from "@/stores/db";
 
 const display = useDisplay();
 
-interface Hero {
-  name: string;
-  tier: "common" | "legendary" | "ascended";
-  faction:
-    | "lightbearer"
-    | "mauler"
-    | "wilder"
-    | "graveborn"
-    | "celestial"
-    | "hypogean"
-    | "dimensional";
-  type: "strength" | "intelligence" | "agility";
-  class?: "warrior" | "tank" | "ranger" | "mage" | "support";
-  awakened?: true;
-}
-
-interface Beast {
-  name: string;
-  tier: "rare" | "elite";
-}
-
-interface Formation {
-  id?: number;
-  name?: string;
-  position1?: string;
-  position2?: string;
-  position3?: string;
-  position4?: string;
-  position5?: string;
-  sp?: string;
-  beast?: string;
-}
-
-interface AfkArenaDB extends DBSchema {
-  formations: {
-    key: string;
-    value: Formation;
-  };
-  // products: {
-  //   value: {
-  //     name: string;
-  //     price: number;
-  //     productCode: string;
-  //   };
-  //   key: string;
-  //   indexes: { "by-price": number };
-  // };
-}
-
-let db: IDBPDatabase<AfkArenaDB>;
-const init = ref(false);
-const error = ref<Error>();
-openDB<AfkArenaDB>("afk_arena", 1, {
-  upgrade(database, oldVersion, newVersion, transaction, event) {
-    console.log(arguments);
-    database.createObjectStore("formations", {
-      keyPath: "id",
-      autoIncrement: true,
-    });
-  },
-})
-  .then((val) => {
-    db = val;
-    init.value = true;
-  })
-  .catch((e) => (error.value = e));
+const { db, init, error } = storeToRefs(useDbStore());
 
 const message = ref("");
 function snackbar(msg: string): void {
@@ -383,7 +320,8 @@ const headers = [
 
 const formationsById = reactive(new Map<number, Formation>());
 watch(init, async () => {
-  const formations = await db.getAll("formations");
+  if (!db.value) return;
+  const formations = await db.value.getAll("formations");
   formations.forEach((formation) =>
     formationsById.set(formation.id, formation)
   );
@@ -410,7 +348,8 @@ function editSelected() {
 }
 
 async function deleteSelected() {
-  const tx = db.transaction("formations", "readwrite");
+  if (!db.value) return;
+  const tx = db.value.transaction("formations", "readwrite");
   const result = await Promise.all([
     ...selected.value.map((id) => tx.store.delete(id)),
     tx.done,
@@ -469,6 +408,8 @@ function closeNewFormation() {
 }
 
 async function saveFormation() {
+  if (!db.value) return;
+
   const newFormation: Formation = {
     name: name.value,
     position1: heroes[0],
@@ -480,7 +421,7 @@ async function saveFormation() {
     beast: beast.value,
   };
 
-  const idStr = await db.put("formations", newFormation);
+  const idStr = await db.value.put("formations", newFormation);
   const id = Number(idStr);
   formationsById.set(id, {
     ...newFormation,
@@ -491,6 +432,8 @@ async function saveFormation() {
 }
 
 async function updateFormation() {
+  if (!db.value) return;
+
   const updatedFormation: Formation = {
     id: formationToUpdate.value,
     name: name.value,
@@ -503,7 +446,7 @@ async function updateFormation() {
     beast: beast.value,
   };
 
-  await db.put("formations", updatedFormation);
+  await db.value.put("formations", updatedFormation);
   formationsById.set(formationToUpdate.value, updatedFormation);
 
   formationToUpdate.value = undefined;
