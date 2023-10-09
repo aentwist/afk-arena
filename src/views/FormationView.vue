@@ -14,7 +14,50 @@
       <template #top>
         <div class="ma-4 me-1 d-flex justify-space-between align-center">
           <h1 class="text-h4 text-md-h3">Formations</h1>
-          <div>
+          <v-menu v-if="display.mobile.value">
+            <template #activator="{ props: menuProps }">
+              <v-tooltip location="bottom">
+                <template #activator="{ props: ttProps }">
+                  <v-btn
+                    class="me-1"
+                    :icon="mdiDotsVertical"
+                    variant="plain"
+                    v-bind="{ ...menuProps, ...ttProps }"
+                    @click="showOptions = true"
+                  />
+                </template>
+                Options
+              </v-tooltip>
+            </template>
+
+            <v-card>
+              <v-list>
+                <v-list-item
+                  :prepend-icon="mdiPlus"
+                  @click="showNewFormation = true"
+                >
+                  New Formation
+                </v-list-item>
+                <v-list-item
+                  :prepend-icon="mdiPencil"
+                  :disabled="selected.length !== 1"
+                  @click="editSelected"
+                >
+                  Edit Selected
+                </v-list-item>
+                <v-list-item
+                  :disabled="!selected.length"
+                  @click="deleteSelected"
+                >
+                  <template #prepend>
+                    <v-icon :icon="mdiTrashCan" color="error" />
+                  </template>
+                  Delete Selected
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+          <div v-else>
             <v-tooltip location="bottom">
               <template #activator="{ props }">
                 <v-btn
@@ -217,11 +260,20 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
+import { useDisplay } from "vuetify";
 import UnitSelect from "@/components/UnitSelect.vue";
 import HeroIcon from "@/components/HeroIcon.vue";
 import BeastIcon from "@/components/BeastIcon.vue";
 import { type DBSchema, type IDBPDatabase, openDB } from "idb";
-import { mdiClose, mdiPencil, mdiPlus, mdiTrashCan } from "@mdi/js";
+import {
+  mdiClose,
+  mdiDotsVertical,
+  mdiPencil,
+  mdiPlus,
+  mdiTrashCan,
+} from "@mdi/js";
+
+const display = useDisplay();
 
 interface Hero {
   name: string;
@@ -312,6 +364,8 @@ fetch(
     beastMetadata.value = await (response.json() as Promise<Beast[]>);
   }
 });
+
+const showOptions = ref(false);
 
 const headers = [
   { title: "Name", key: "name" },
