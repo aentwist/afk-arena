@@ -6,7 +6,7 @@
           class="w-100 d-flex align-center"
           :class="{ 'justify-space-between': display.mobile.value }"
         >
-          <div class="px-4">AFK Arena</div>
+          <router-link class="home px-4" to="/">AFK Arena</router-link>
 
           <v-app-bar-nav-icon
             v-if="display.mobile.value"
@@ -25,7 +25,7 @@
             <v-card>
               <v-toolbar color="primary">
                 <div class="w-100 d-flex justify-space-between align-center">
-                  <div class="px-4">AFK Arena</div>
+                  <router-link class="home px-4" to="/">AFK Arena</router-link>
                   <v-btn
                     class="me-2"
                     :icon="mdiClose"
@@ -69,10 +69,6 @@ const display = useDisplay();
 
 const tabs = [
   {
-    to: "/",
-    title: "Home",
-  },
-  {
     to: { name: "heroes" },
     title: "Heroes",
   },
@@ -88,3 +84,10 @@ const tabs = [
 
 const showMobileNav = ref(false);
 </script>
+
+<style scoped>
+.home {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
