@@ -12,6 +12,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@vueuse/core": "^10.5.0",
     "idb": "^7.1.1",
     "luxon": "^3.3.0",
     "pinia": "^2.0.23",
