@@ -12,8 +12,8 @@
       :row-height="83"
     >
       <template #top>
-        <div class="ma-4 me-1 d-flex justify-space-between">
-          <h1 class="text-h3">Formations</h1>
+        <div class="ma-4 me-1 d-flex justify-space-between align-center">
+          <h1 class="text-h4 text-md-h3">Formations</h1>
           <div>
             <v-tooltip location="bottom">
               <template #activator="{ props }">

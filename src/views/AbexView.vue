@@ -1,6 +1,8 @@
 <template>
   <div class="my-12 d-flex flex-column align-center">
-    <h1 class="mb-8 text-h3 text-center">Boss Attack Reset<br />Calculator</h1>
+    <h1 class="mb-8 text-h4 text-md-h3 text-center">
+      Boss Attack Reset<br />Calculator
+    </h1>
 
     <div class="page-container">
       <v-form v-if="page === 1">
