@@ -15,7 +15,12 @@
           />
           <nav v-else>
             <v-tabs>
-              <v-tab v-for="(tab, i) in tabs" :key="i" :to="tab.to">
+              <v-tab
+                v-for="(tab, i) in tabs"
+                :key="i"
+                :to="tab.to"
+                :disabled="tab.disabled === true"
+              >
                 {{ tab.title }}
               </v-tab>
             </v-tabs>
@@ -47,6 +52,7 @@
                     v-for="(tab, i) in tabs"
                     :key="i"
                     :to="tab.to"
+                    :disabled="tab.disabled === true"
                     @click="showMobileNav = false"
                   >
                     {{ tab.title }}
@@ -77,6 +83,7 @@ const tabs = [
   {
     to: { name: "heroes" },
     title: "Heroes",
+    disabled: true,
   },
   {
     to: { name: "formations" },
