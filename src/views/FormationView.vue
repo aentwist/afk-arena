@@ -191,7 +191,7 @@
                 v-model="heroes[i - 1]"
                 class="me-1"
                 type="hero"
-                :label="`Position ${i}`"
+                :label="`P${i}`"
                 :selected="unitSelectIndex === i - 1"
                 @update:selected="unitSelectIndex = i - 1"
               />
@@ -309,11 +309,11 @@ const showOptions = ref(false);
 
 const headers = [
   { title: "Name", key: "name" },
-  { title: "Position 1", key: "position1" },
-  { title: "Position 2", key: "position2" },
-  { title: "Position 3", key: "position3" },
-  { title: "Position 4", key: "position4" },
-  { title: "Position 5", key: "position5" },
+  { title: "P1", key: "position1" },
+  { title: "P2", key: "position2" },
+  { title: "P3", key: "position3" },
+  { title: "P4", key: "position4" },
+  { title: "P5", key: "position5" },
   { title: "SP", key: "SP" },
   { title: "Beast", key: "beast" },
 ];
