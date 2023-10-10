@@ -25,7 +25,13 @@
             <v-card>
               <v-toolbar color="primary">
                 <div class="w-100 d-flex justify-space-between align-center">
-                  <router-link class="home px-4" to="/">AFK Arena</router-link>
+                  <router-link
+                    class="home px-4"
+                    to="/"
+                    @click="showMobileNav = false"
+                  >
+                    AFK Arena
+                  </router-link>
                   <v-btn
                     class="me-2"
                     :icon="mdiClose"
