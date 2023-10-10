@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Permanent Marker";
+  src: url("./PermanentMarker-Regular.ttf");
+}
+
 :root {
   --max-width: 500px;
 }
@@ -6,6 +11,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
 }
 
 .cursor-pointer {
