@@ -209,6 +209,8 @@ import { mdiClose, mdiCog, mdiMinus, mdiPlus } from "@mdi/js";
 const S_KEY_NS = "abex:";
 
 // Settings
+// Seasons always start on Sunday at 12am UTC. They run for 16 days. Of those,
+// the last day is quiet time - stamina is only accumulated for the first 15.
 const seasons = [
   {
     title: "S9",
@@ -220,11 +222,11 @@ const seasons = [
     value: "s10",
     quietTimeStartDate: DateTime.fromISO("2023-07-23T00:00Z"),
   },
-  // {
-  //   title: "S11 Beta",
-  //   value: "s11b",
-  //   quietTimeStartDate: DateTime.fromISO("2023-07-23T00:00Z"),
-  // },
+  {
+    title: "S11 Beta",
+    value: "s11b",
+    quietTimeStartDate: DateTime.fromISO("2023-10-30T00:00Z"),
+  },
 ];
 const season = ref(seasons[seasons.length - 1]);
 const settingsSeason = useLocalStorage(
