@@ -14,89 +14,7 @@
       <template #top>
         <div class="ma-4 me-1 d-flex justify-space-between align-center">
           <h1 class="text-h4 text-md-h3">Formations</h1>
-          <v-menu v-if="display.mobile.value">
-            <template #activator="{ props: menuProps }">
-              <v-tooltip location="bottom">
-                <template #activator="{ props: ttProps }">
-                  <v-btn
-                    class="me-1"
-                    :icon="mdiDotsVertical"
-                    variant="plain"
-                    v-bind="{ ...menuProps, ...ttProps }"
-                    @click="showOptions = true"
-                  />
-                </template>
-                Options
-              </v-tooltip>
-            </template>
-
-            <v-card>
-              <v-list>
-                <v-list-item
-                  :prepend-icon="mdiPlus"
-                  @click="showNewFormation = true"
-                >
-                  New Formation
-                </v-list-item>
-                <v-list-item
-                  :prepend-icon="mdiPencil"
-                  :disabled="selected.length !== 1"
-                  @click="editSelected"
-                >
-                  Edit Selected
-                </v-list-item>
-                <v-list-item
-                  :disabled="!selected.length"
-                  @click="deleteSelected"
-                >
-                  <template #prepend>
-                    <v-icon :icon="mdiTrashCan" color="error" />
-                  </template>
-                  Delete Selected
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-menu>
-          <div v-else>
-            <v-tooltip location="bottom">
-              <template #activator="{ props }">
-                <v-btn
-                  class="me-1"
-                  :icon="mdiPlus"
-                  variant="plain"
-                  v-bind="props"
-                  @click="showNewFormation = true"
-                />
-              </template>
-              New Formation
-            </v-tooltip>
-            <v-tooltip location="bottom">
-              <template #activator="{ props }">
-                <v-btn
-                  class="me-1"
-                  :icon="mdiPencil"
-                  variant="plain"
-                  :disabled="selected.length !== 1"
-                  v-bind="props"
-                  @click="editSelected"
-                />
-              </template>
-              Edit Selected
-            </v-tooltip>
-            <v-tooltip location="bottom">
-              <template #activator="{ props }">
-                <v-btn
-                  :icon="mdiTrashCan"
-                  variant="plain"
-                  color="error"
-                  :disabled="!selected.length"
-                  v-bind="props"
-                  @click="deleteSelected"
-                />
-              </template>
-              Delete Selected
-            </v-tooltip>
-          </div>
+          <ToolbarActions :actions="toolbarActions" />
         </div>
       </template>
 
@@ -262,19 +180,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Hero, Beast, Formation } from "@/types";
+import type { Beast, Formation, Hero, ToolbarAction } from "@/types";
 import { computed, reactive, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 import UnitSelect from "@/components/UnitSelect.vue";
 import HeroIcon from "@/components/HeroIcon.vue";
 import BeastIcon from "@/components/BeastIcon.vue";
-import {
-  mdiClose,
-  mdiDotsVertical,
-  mdiPencil,
-  mdiPlus,
-  mdiTrashCan,
-} from "@mdi/js";
+import ToolbarActions from "@/components/ToolbarActions.vue";
+import { mdiClose, mdiPencil, mdiPlus, mdiTrashCan } from "@mdi/js";
 import { storeToRefs } from "pinia";
 import { useDbStore } from "@/stores/db";
 
@@ -304,8 +217,6 @@ fetch(
     beastMetadata.value = await (response.json() as Promise<Beast[]>);
   }
 });
-
-const showOptions = ref(false);
 
 const headers = [
   { title: "Name", key: "name" },
@@ -455,6 +366,29 @@ async function updateFormation() {
   closeNewFormation();
   snackbar("Formation updated!");
 }
+
+const toolbarActions: ToolbarAction[] = [
+  {
+    title: "New Formation",
+    icon: mdiPlus,
+    handler: () => void (showNewFormation.value = true),
+  },
+  {
+    title: "Edit Selected",
+    icon: mdiPencil,
+    disabled: selected.value.length !== 1,
+    handler: editSelected,
+  },
+  {
+    title: "Delete Selected",
+    icon: mdiTrashCan,
+    iconProps: {
+      color: "error",
+    },
+    disabled: !selected.value.length,
+    handler: deleteSelected,
+  },
+];
 </script>
 
 <style scoped>
