@@ -121,6 +121,7 @@
                     size="small"
                     variant="flat"
                     :icon="mdiMinus"
+                    :disabled="item.stamina < STAMINA_PER_ATTACK"
                     @click="item.stamina -= STAMINA_PER_ATTACK"
                   />
                 </div>
@@ -132,6 +133,7 @@
                     size="small"
                     variant="flat"
                     :icon="mdiMinus"
+                    :disabled="item.stamina < STAMINA_PER_ATTACK"
                     @click="item.stamina -= STAMINA_PER_REWIND"
                   />
                 </div>
