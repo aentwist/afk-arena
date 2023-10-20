@@ -12,7 +12,7 @@
       <ToolbarActions v-if="page > SETTINGS_PAGE" :actions="toolbarActions" />
     </div>
 
-    <div class="w-100">
+    <div :class="[page === CALC_PAGE ? 'w-100' : 'w-max-width']">
       <div v-if="page === WELCOME_PAGE">
         <h3 class="mb-8 text-h5 text-center">
           Welcome to AE {{ season.title }}!
@@ -200,6 +200,7 @@
 <script setup lang="ts">
 import type { ToolbarAction } from "@/types";
 import { type ComputedRef, computed, reactive, type Ref, ref } from "vue";
+import { useDisplay } from "vuetify";
 import { useLocalStorage, useTimeAgo } from "@vueuse/core";
 import { DateTime } from "luxon";
 import InformationIcon from "@/components/InformationIcon.vue";
@@ -207,6 +208,8 @@ import ToolbarActions from "@/components/ToolbarActions.vue";
 import { mdiClose, mdiCog, mdiMinus, mdiPlus } from "@mdi/js";
 
 const S_KEY_NS = "abex:";
+
+const display = useDisplay();
 
 // Settings
 // Seasons always start on Sunday at 12am UTC. They run for 16 days. Of those,

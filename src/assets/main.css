@@ -48,3 +48,7 @@ html {
 .rounded-theme {
   border-radius: 1px;
 }
+
+.w-max-width {
+  width: var(--max-width);
+}
