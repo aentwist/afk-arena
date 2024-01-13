@@ -358,9 +358,9 @@ const headers = [
   { title: "Remaining Damage (B)", key: "damage" },
 ];
 
-const initRowStamina = ref(1_000);
+const initRowStamina = ref(80);
 const initAttacks = attacks(initRowStamina);
-const initDamagePerAttack = ref(8);
+const initDamagePerAttack = ref(10);
 const items = reactive<CompItem[]>([
   {
     formation: ref("My Formation"),
