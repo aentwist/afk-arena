@@ -50,5 +50,5 @@ html {
 }
 
 .w-max-width {
-  width: var(--max-width);
+  width: min(100%, var(--max-width));
 }

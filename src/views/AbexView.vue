@@ -6,8 +6,10 @@
     closable
   />
 
-  <div class="my-3 my-sm-12 d-flex flex-column align-center">
-    <div class="mx-1 mx-sm-0 mb-3 mb-sm-8 d-flex align-center">
+  <div class="d-flex flex-column align-center">
+    <div
+      class="ma-4 me-1 d-flex flex-grow-1 justify-space-between align-center"
+    >
       <h1 class="me-1 text-h4 text-md-h3 line-clamp-1">Attack Calculator</h1>
       <ToolbarActions v-if="page > SETTINGS_PAGE" :actions="toolbarActions" />
     </div>
