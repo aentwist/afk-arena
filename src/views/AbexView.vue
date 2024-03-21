@@ -216,8 +216,9 @@ const S_KEY_NS = "abex:";
 const display = useDisplay();
 
 // Settings
-// Seasons always start on Sunday at 12am UTC. They run for 16 days. Of those,
-// the last day is quiet time - stamina is only accumulated for the first 15.
+// Seasons usually start on Saturday or Sunday at 12am UTC. They run for 16
+// days. Of those, the last day is quiet time - stamina is only accumulated for
+// the first 15.
 const seasons = [
   {
     title: "S9",
@@ -238,6 +239,11 @@ const seasons = [
     title: "S11",
     value: "s11",
     quietTimeStartDate: DateTime.fromISO("2024-01-28T00:00Z"),
+  },
+  {
+    title: "S12",
+    value: "s12",
+    quietTimeStartDate: DateTime.fromISO("2024-04-07T00:00Z"),
   },
 ];
 const season = ref(seasons[seasons.length - 1]);
