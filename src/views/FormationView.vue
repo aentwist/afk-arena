@@ -20,54 +20,54 @@
 
       <template #item.position1="{ item }">
         <HeroIcon
-          v-if="item.raw.position1"
-          :name="item.raw.position1"
+          v-if="item.position1"
+          :name="item.position1"
           ascension="ascended"
           :stars="5"
         />
       </template>
       <template #item.position2="{ item }">
         <HeroIcon
-          v-if="item.raw.position2"
-          :name="item.raw.position2"
+          v-if="item.position2"
+          :name="item.position2"
           ascension="ascended"
           :stars="5"
         />
       </template>
       <template #item.position3="{ item }">
         <HeroIcon
-          v-if="item.raw.position3"
-          :name="item.raw.position3"
+          v-if="item.position3"
+          :name="item.position3"
           ascension="ascended"
           :stars="5"
         />
       </template>
       <template #item.position4="{ item }">
         <HeroIcon
-          v-if="item.raw.position4"
-          :name="item.raw.position4"
+          v-if="item.position4"
+          :name="item.position4"
           ascension="ascended"
           :stars="5"
         />
       </template>
       <template #item.position5="{ item }">
         <HeroIcon
-          v-if="item.raw.position5"
-          :name="item.raw.position5"
+          v-if="item.position5"
+          :name="item.position5"
           ascension="ascended"
           :stars="5"
         />
       </template>
       <template #item.sp="{ item }">
         <HeroIcon
-          v-if="item.raw.sp"
-          :name="item.raw.sp"
+          v-if="item.sp"
+          :name="item.sp"
           ascension="ascended"
           :stars="5"
         />
       </template>
       <template #item.beast="{ item }">
-        <BeastIcon v-if="item.raw.beast" :name="item.raw.beast" />
+        <BeastIcon v-if="item.beast" :name="item.beast" />
       </template>
     </v-data-table>
 
