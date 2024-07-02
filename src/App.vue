@@ -93,6 +93,10 @@ const tabs = [
     to: { name: "abex" },
     title: "Abyssal Expedition",
   },
+  {
+    to: { name: "si40" },
+    title: "SI40 Calculator",
+  },
 ];
 
 const showMobileNav = ref(false);

@@ -27,6 +27,11 @@ const router = createRouter({
       name: "abex",
       component: () => import("../views/AbexView.vue"),
     },
+    {
+      path: "/si40",
+      name: "si40",
+      component: () => import("../views/Si40View.vue"),
+    },
   ],
 });
 
