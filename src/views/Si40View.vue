@@ -49,7 +49,7 @@
       />
     </section>
     <v-text-field
-      :modelValue="Math.min(redUpgrades, epicUpgrades)"
+      :modelValue="totalUpgrades"
       label="Total upgrades"
       readonly
       hide-details
@@ -106,6 +106,7 @@ const EPIC_COSTS = [30, 40, 50, 55, 60, 65, 70, 80, 90, 110];
 
 const redUpgrades = ref(0);
 const epicUpgrades = ref(0);
+const totalUpgrades = ref(0);
 const leftoverReds = ref(0);
 const leftoverEpics = ref(0);
 watch([reds, epics, levelUpgrades], () => {
@@ -121,9 +122,10 @@ watch([reds, epics, levelUpgrades], () => {
 
   redUpgrades.value = Math.floor(reds.value / redCost);
   epicUpgrades.value = Math.floor(epics.value / epicCost);
+  totalUpgrades.value = Math.min(redUpgrades.value, epicUpgrades.value);
 
-  leftoverReds.value = reds.value % redCost;
-  leftoverEpics.value = epics.value % epicCost;
+  leftoverReds.value = reds.value - totalUpgrades.value * redCost;
+  leftoverEpics.value = epics.value - totalUpgrades.value * epicCost;
 });
 </script>
 
