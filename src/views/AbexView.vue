@@ -248,7 +248,7 @@ const seasons = [
   {
     title: "S13 Beta",
     value: "s13b",
-    quietTimeStartDate: DateTime.fromISO("2024-07-30T00:00Z"),
+    quietTimeStartDate: DateTime.fromISO("2024-07-28T00:00Z"),
   },
 ];
 const season = ref(seasons[seasons.length - 1]);
