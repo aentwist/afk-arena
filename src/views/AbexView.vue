@@ -265,6 +265,11 @@ const seasons = [
     value: "s15b",
     quietTimeStartDate: DateTime.fromISO("2025-05-26T00:00Z"),
   },
+  {
+    title: "S15",
+    value: "s15",
+    quietTimeStartDate: DateTime.fromISO("2025-08-03T00:00Z"),
+  },
 ];
 const season = ref(seasons[seasons.length - 1]);
 const settingsSeason = useLocalStorage(
